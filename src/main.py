@@ -39,7 +39,6 @@ mushrooms_clean[labels[21]] = mushrooms_clean[labels[21]].replace({'g': 'Grasses
 
 # Create categorical data
 mushrooms_clean = pd.get_dummies(mushrooms_clean, columns=labels, prefix=labels)
-print(mushrooms_clean.head())
 
 
 
@@ -52,7 +51,7 @@ ax = mushrooms['class'].value_counts().plot(kind='bar', rot=0)
 ax.set_ylabel('Count')
 ax.set_xlabel('Class of Mushroom')
 ax.set_title('Number of Edible vs Non-Edible Mushrooms')
-plt.show()
+# plt.show()
 
 # Cap comparision
 # ax = plt.figure().add_axes([0, 0, 1, 1])
@@ -82,7 +81,12 @@ from sklearn.tree import DecisionTreeClassifier # Import Decision Tree Classifie
 from sklearn.model_selection import train_test_split # Import train_test_split function
 from sklearn import metrics #Import scikit-learn metrics module for accuracy calculation
 
-feature_column = mushrooms_clean[['odor_Almond', 'odor_Anise', 'odor_Creosote', 'odor_Fishy', 'odor_Foul', 'odor_Musty', 'odor_None', 'odor_Pungent', 'odor_Spicy', 'habitat_Grasses', 'habitat_Leaves', 'habitat_Meadows', 'habitat_Paths', 'habitat_Urban', 'habitat_Waste', 'habitat_Woods']]
+feature_column = mushrooms_clean[[
+    'odor_Almond', 'odor_Anise', 'odor_Creosote', 'odor_Fishy', 'odor_Foul', 'odor_Musty', 'odor_None', 'odor_Pungent', 'odor_Spicy',
+    'habitat_Grasses', 'habitat_Leaves', 'habitat_Meadows', 'habitat_Paths', 'habitat_Urban', 'habitat_Waste', 'habitat_Woods',
+    'cap-color_Brown', 'cap-color_Cinnamon', 'cap-color_Buff', 'cap-color_Gray', 'cap-color_Green', 'cap-color_Pink', 'cap-color_Purple', 'cap-color_Red', 'cap-color_White', 'cap-color_Yellow',
+    'bruises_Bruises', 'bruises_No',
+]]
 target_column = mushrooms_clean['class']
 
 feature_train, feature_test, target_train, target_test = train_test_split(feature_column, target_column, test_size=0.3, random_state=1)
