@@ -73,13 +73,10 @@ ax.set_title('Number of Edible vs Non-Edible Mushrooms')
 
 
 
-# -------------------------------------------------------------
-# Decision Tree Algorithm
-# -------------------------------------------------------------
+# Create training and target sets
 
-from sklearn.tree import DecisionTreeClassifier # Import Decision Tree Classifier
-from sklearn.model_selection import train_test_split # Import train_test_split function
-from sklearn import metrics #Import scikit-learn metrics module for accuracy calculation
+from sklearn.model_selection import train_test_split
+from sklearn import metrics
 
 feature_column = mushrooms_clean[[
     'odor_Almond', 'odor_Anise', 'odor_Creosote', 'odor_Fishy', 'odor_Foul', 'odor_Musty', 'odor_None', 'odor_Pungent', 'odor_Spicy',
@@ -91,8 +88,30 @@ target_column = mushrooms_clean['class']
 
 feature_train, feature_test, target_train, target_test = train_test_split(feature_column, target_column, test_size=0.3, random_state=1)
 
-classifier = DecisionTreeClassifier()
-classifier = classifier.fit(feature_train, target_train)
-target_pred = classifier.predict(feature_test)
 
-print('Accuracy: ', metrics.accuracy_score(target_test, target_pred))
+
+# -------------------------------------------------------------
+# Decision Tree Algorithm
+# -------------------------------------------------------------
+
+from sklearn.tree import DecisionTreeClassifier
+
+decision_tree_classifier = DecisionTreeClassifier()
+decision_tree_classifier = decision_tree_classifier.fit(feature_train, target_train)
+target_pred = decision_tree_classifier.predict(feature_test)
+
+print('\nDecision Tree Accuracy: ', metrics.accuracy_score(target_test, target_pred))
+
+
+
+# -------------------------------------------------------------
+# Naive Bayes Algorithm
+# -------------------------------------------------------------
+
+from sklearn.naive_bayes import GaussianNB
+
+naive_bayes_classifier = GaussianNB()
+naive_bayes_classifier.fit(feature_train, target_train)
+target_pred = naive_bayes_classifier.predict(feature_test)
+
+print('Naive Bayes Accuracy: ', metrics.accuracy_score(target_test, target_pred))
