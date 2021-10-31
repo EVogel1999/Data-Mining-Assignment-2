@@ -115,3 +115,18 @@ naive_bayes_classifier.fit(feature_train, target_train)
 target_pred = naive_bayes_classifier.predict(feature_test)
 
 print('Naive Bayes Accuracy: ', metrics.accuracy_score(target_test, target_pred))
+
+
+
+# -------------------------------------------------------------
+# Random Forest Algorithm
+# -------------------------------------------------------------
+
+from sklearn.ensemble import RandomForestClassifier
+
+random_forest_classifier = RandomForestClassifier(n_estimators=100)
+random_forest_classifier.fit(feature_train, target_train)
+target_pred = random_forest_classifier.predict(feature_test)
+
+print('Random Forest Accuracy: ', metrics.accuracy_score(target_test, target_pred))
+print()
