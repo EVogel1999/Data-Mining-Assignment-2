@@ -11,7 +11,7 @@ from pandas.plotting import scatter_matrix
 labels = ['cap-shape', 'cap-surface', 'cap-color', 'bruises', 'odor', 'gill-attachment', 'gill-spacing', 'gill-size', 'gill-color', 'stalk-shape', 'stalk-root', 'stalk-surface-above-ring', 'stalk-surface-below-ring', 'stalk-color-above-ring', 'stalk-color-below-ring', 'veil-type', 'veil-color', 'ring-number', 'ring-type', 'spore-print-color', 'population', 'habitat']
 mushrooms = pd.read_csv('./data/mushrooms.csv')
 
-# Clean the data
+# Clean the data for the algorithms
 mushrooms_clean = mushrooms.copy()
 mushrooms_clean['class'] = mushrooms_clean['class'].replace({'e': 'Edible', 'p': 'Poisonous'})
 mushrooms_clean[labels[0]] = mushrooms_clean[labels[0]].replace({'b': 'Bell', 'c': 'Conical', 'x': 'Convex', 'f': 'Flat', 'k': 'Knobbed', 's': 'Sunken'})
@@ -37,8 +37,13 @@ mushrooms_clean[labels[19]] = mushrooms_clean[labels[19]].replace({'k': 'Black',
 mushrooms_clean[labels[20]] = mushrooms_clean[labels[20]].replace({'a': 'Abundant', 'c': 'Clustered', 'n': 'Numerous', 's': 'Scattered', 'v': 'Several', 'y': 'Solitary'})
 mushrooms_clean[labels[21]] = mushrooms_clean[labels[21]].replace({'g': 'Grasses', 'l': 'Leaves', 'm': 'Meadows', 'p': 'Paths', 'u': 'Urban', 'w': 'Waste', 'd': 'Woods'})
 
-# Create categorical data
+# Create categorical data for the algorithms
 mushrooms_clean = pd.get_dummies(mushrooms_clean, columns=labels, prefix=labels)
+
+# Clean the data for EDA
+mushrooms['class'] = mushrooms['class'].replace({'e': 'Edible', 'p': 'Poisonous'})
+mushrooms[labels[4]] = mushrooms[labels[4]].replace({'a': 'Almond', 'l': 'Anise', 'c': 'Creosote', 'y': 'Fishy', 'f': 'Foul', 'm': 'Musty', 'n': 'None', 'p': 'Pungent', 's': 'Spicy'})
+mushrooms[labels[21]] = mushrooms[labels[21]].replace({'g': 'Grasses', 'l': 'Leaves', 'm': 'Meadows', 'p': 'Paths', 'u': 'Urban', 'w': 'Waste', 'd': 'Woods'})
 
 
 
@@ -51,25 +56,32 @@ ax = mushrooms['class'].value_counts().plot(kind='bar', rot=0)
 ax.set_ylabel('Count')
 ax.set_xlabel('Class of Mushroom')
 ax.set_title('Number of Edible vs Non-Edible Mushrooms')
-# plt.show()
+plt.show()
 
-# Cap comparision
-# ax = plt.figure().add_axes([0, 0, 1, 1])
-# ax = mushrooms['cap-color'].value_counts().plot(kind='bar')
-# ax.set_ylabel('Count')
-# ax.set_xlabel('Cap Color of Mushroom')
-# ax.set_title('Types of Cap Color for Mushrooms')
-# plt.show()
-# ax = mushrooms['cap-shape'].value_counts().plot(kind='bar', rot=0)
-# ax.set_ylabel('Count')
-# ax.set_xlabel('Cap Shape of Mushroom')
-# ax.set_title('Types of Cap Shape for Mushrooms')
-# plt.show()
-# ax = mushrooms['cap-surface'].value_counts().plot(kind='bar', rot=0)
-# ax.set_ylabel('Count')
-# ax.set_xlabel('Cap Surface of Mushroom')
-# ax.set_title('Types of Cap Surface for Mushrooms')
-# plt.show()
+# Odor comparision
+ax = mushrooms['odor'].value_counts().plot(kind='bar', rot=0)
+ax.set_ylabel('Count')
+ax.set_xlabel('Odor of Mushroom')
+ax.set_title('Types of Odor for Mushrooms')
+plt.show()
+
+poisonous = mushrooms.loc[mushrooms['class'] == 'Poisonous']
+ax = poisonous['odor'].value_counts().plot(kind='bar', rot=0)
+ax.set_ylabel('Count')
+ax.set_xlabel('Odor of Mushroom')
+ax.set_title('Odor Types of Poisonous Mushrooms')
+plt.show()
+
+edible = mushrooms.loc[mushrooms['class'] == 'Edible']
+ax = edible['odor'].value_counts().plot(kind='bar', rot=0)
+ax.set_ylabel('Count')
+ax.set_xlabel('Odor of Mushroom')
+ax.set_title('Odor Types of Edible Mushrooms')
+plt.show()
+
+# Habitat Comparision
+class_habitat = mushrooms.groupby(['habitat'])['class'].value_counts()
+print(class_habitat)
 
 
 
