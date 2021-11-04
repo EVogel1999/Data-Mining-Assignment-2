@@ -90,12 +90,13 @@ print(class_habitat)
 from sklearn.model_selection import train_test_split
 from sklearn import metrics
 
-feature_column = mushrooms_clean[[
+columns = [
     'odor_Almond', 'odor_Anise', 'odor_Creosote', 'odor_Fishy', 'odor_Foul', 'odor_Musty', 'odor_None', 'odor_Pungent', 'odor_Spicy',
     'habitat_Grasses', 'habitat_Leaves', 'habitat_Meadows', 'habitat_Paths', 'habitat_Urban', 'habitat_Waste', 'habitat_Woods',
     'cap-color_Brown', 'cap-color_Cinnamon', 'cap-color_Buff', 'cap-color_Gray', 'cap-color_Green', 'cap-color_Pink', 'cap-color_Purple', 'cap-color_Red', 'cap-color_White', 'cap-color_Yellow',
     'bruises_Bruises', 'bruises_No',
-]]
+]
+feature_column = mushrooms_clean[columns]
 target_column = mushrooms_clean['class']
 
 feature_train, feature_test, target_train, target_test = train_test_split(feature_column, target_column, test_size=0.3, random_state=1)
@@ -113,6 +114,11 @@ decision_tree_classifier = decision_tree_classifier.fit(feature_train, target_tr
 target_pred = decision_tree_classifier.predict(feature_test)
 
 print('\nDecision Tree Accuracy: ', metrics.accuracy_score(target_test, target_pred))
+print('Decision Tree Recall (Edible): ', metrics.recall_score(target_test, target_pred, pos_label='Edible'))
+print('Decision Tree Recall (Poisonous): ', metrics.recall_score(target_test, target_pred, pos_label='Poisonous'))
+print('Decision Tree Precision (Edible): ', metrics.precision_score(target_test, target_pred, pos_label='Edible'))
+print('Decision Tree Precision (Poisonous): ', metrics.precision_score(target_test, target_pred, pos_label='Poisonous'))
+print()
 
 
 
@@ -127,6 +133,11 @@ naive_bayes_classifier.fit(feature_train, target_train)
 target_pred = naive_bayes_classifier.predict(feature_test)
 
 print('Naive Bayes Accuracy: ', metrics.accuracy_score(target_test, target_pred))
+print('Naive Bayes Recall (Edible): ', metrics.recall_score(target_test, target_pred, pos_label='Edible'))
+print('Naive Bayes Recall (Poisonous): ', metrics.recall_score(target_test, target_pred, pos_label='Poisonous'))
+print('Naive Bayes Precision (Edible): ', metrics.precision_score(target_test, target_pred, pos_label='Edible'))
+print('Naive Bayes (Poisonous): ', metrics.precision_score(target_test, target_pred, pos_label='Poisonous'))
+print()
 
 
 
@@ -136,9 +147,13 @@ print('Naive Bayes Accuracy: ', metrics.accuracy_score(target_test, target_pred)
 
 from sklearn.ensemble import RandomForestClassifier
 
-random_forest_classifier = RandomForestClassifier(n_estimators=100)
+random_forest_classifier = RandomForestClassifier(n_estimators=100, criterion="entropy")
 random_forest_classifier.fit(feature_train, target_train)
 target_pred = random_forest_classifier.predict(feature_test)
 
 print('Random Forest Accuracy: ', metrics.accuracy_score(target_test, target_pred))
+print('Random Forest Recall (Edible): ', metrics.recall_score(target_test, target_pred, pos_label='Edible'))
+print('Random Forest Recall (Poisonous): ', metrics.recall_score(target_test, target_pred, pos_label='Poisonous'))
+print('Random Forest Precision (Edible): ', metrics.precision_score(target_test, target_pred, pos_label='Edible'))
+print('Random Forest Precision (Poisonous): ', metrics.precision_score(target_test, target_pred, pos_label='Poisonous'))
 print()
